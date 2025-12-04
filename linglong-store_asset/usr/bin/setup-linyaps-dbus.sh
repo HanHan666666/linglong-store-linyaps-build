@@ -2,7 +2,7 @@
 set -euo pipefail
 
 BUS_NAME="org.linglong_store.LinyapsManager"
-BIN_DIR="$HOME/.linglong-store-v2/"
+BIN_DIR="$HOME/.linglong-store-v2"
 BIN="$BIN_DIR/linyaps-dbus-server"
 SERV_DIR="$HOME/.config/systemd/user"
 DBUS_DIR="$HOME/.local/share/dbus-1/services"
@@ -35,11 +35,11 @@ ExecStart=${BIN}
 WantedBy=default.target
 EOF
 
-cat > "$DBUS_DIR/${BUS_NAME}.service" <<EOF
-[D-BUS Service]
-Name=${BUS_NAME}
-SystemdService=${BUS_NAME}.service
-EOF
+# cat > "$DBUS_DIR/${BUS_NAME}.service" <<EOF
+# [D-BUS Service]
+# Name=${BUS_NAME}
+# SystemdService=${BUS_NAME}.service
+# EOF
 
 
 
