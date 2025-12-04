@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
+export DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/user/1000/bus
 BUS_NAME="org.linglong_store.LinyapsManager"
 BIN_DIR="$HOME/.linglong-store-v2"
 BIN="$BIN_DIR/linyaps-dbus-server"
 SERV_DIR="$HOME/.config/systemd/user"
-DBUS_DIR="$HOME/.local/share/dbus-1/services"
 
-APP_FILE_DIR="/opt/apps/com.dongpl.linglong-store.v2/files"
+# APP_FILE_DIR="/opt/apps/com.dongpl.linglong-store.v2/files"
 
 mkdir -p "$BIN_DIR"
 if [ ! -f "$BIN_DIR/linyaps-dbus-server" ]; then
@@ -21,7 +20,7 @@ fi
 
 
 
-mkdir -p "$SERV_DIR" "$DBUS_DIR"
+mkdir -p "$SERV_DIR" 
 
 cat > "$SERV_DIR/${BUS_NAME}.service" <<EOF
 [Unit]
@@ -31,7 +30,7 @@ After=dbus.socket
 [Service]
 Type=dbus
 BusName=${BUS_NAME}
-Environment=DBUS_SYSTEM_BUS_ADDRESS=unix:path=%t/bus
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=%t/bus
 ExecStart=${BIN}
 # Restart=on-failure
 
