@@ -11,7 +11,7 @@ package:
     Linglong application store for discovering and managing Linglong apps.
 
 command:
-  - /opt/apps/com.dongpl.linglong-store.v2/files/bin/linglong-store
+  - /opt/apps/com.dongpl.linglong-store.v2/files/bin/setup-linyaps-dbus.sh
 
 base: org.deepin.base/25.2.1
 runtime: org.deepin.runtime.gtk4/25.2.1
