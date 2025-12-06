@@ -3,7 +3,7 @@ version: "1"
 package:
   id: com.dongpl.linglong-store.v2
   name: linglong-store
-  version: 2.0.0.1
+  version: 2.0.0.2
   kind: app
   # channel: beta
   architecture: x86_64
