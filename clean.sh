@@ -21,8 +21,12 @@ rm -rf "${BIN_DIR}"
 systemctl --user daemon-reload
 
 # 删除编译产物
-rm com.dongpl.linglong-store.v2_2.0.0.1_x86_64_main.uab || true
-rm -rf linglong
-rm *.layer
+rm *.uab || true
+rm -rf linglong || true
+rm *.layer || true
+
+ll-cli kill -s 9 "${BUS_NAME}" 2>/dev/null 
+sleep 0.5
+ll-cli uninstall com.dongpl.linglong-store.v2 2>/dev/null || true
 
 echo "已清理 ${BUS_NAME} 的用户级 systemd 和 dbus 配置"
