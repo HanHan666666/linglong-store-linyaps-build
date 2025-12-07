@@ -51,4 +51,6 @@ echo "测试调用：dbus-send --session --print-reply --dest=${BUS_NAME} /org/l
 dbus-send --session --print-reply --dest=${BUS_NAME} /org/linglong_store/LinyapsManager ${BUS_NAME}.Help || true
 
 sleep 0.5
-linglong-store
+
+# 日志写入BIN_DIR，文件名添加启动时候的时间戳
+linglong-store > "$BIN_DIR/linglong-store-$(date +%Y%m%d%H%M%S).log" 2>&1 &
