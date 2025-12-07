@@ -52,7 +52,4 @@ dbus-send --session --print-reply --dest=${BUS_NAME} /org/linglong_store/Linyaps
 
 sleep 0.5
 
-mkdir -p "$BIN_DIR/logs" || true
-
-# 日志写入BIN_DIR，文件名添加启动时候的时间戳
-linglong-store > "$BIN_DIR/logs/linglong-store-$(date +%Y%m%d%H%M%S).log" 2>&1 &
+linglong-store
