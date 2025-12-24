@@ -52,4 +52,6 @@ dbus-send --session --print-reply --dest=${BUS_NAME} /org/linglong_store/Linyaps
 
 sleep 0.5
 
+export LINYAPS_CONTAINER=yes
+
 linglong-store

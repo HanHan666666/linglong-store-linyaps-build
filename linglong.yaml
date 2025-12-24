@@ -3,71 +3,38 @@ version: "1"
 package:
   id: com.dongpl.linglong-store.v2
   name: linglong-store
-  version: 2.0.0.4
+  version: 2.0.0.5
   kind: app
   # channel: beta
   architecture: x86_64
   description: |
-    Linglong application store for discovering and managing Linglong apps.
+    Linglong application community store for discovering and managing Linglong apps.
 
 command:
   - /opt/apps/com.dongpl.linglong-store.v2/files/bin/setup-linyaps-dbus.sh
 
 base: org.deepin.base/25.2.1
 runtime: org.deepin.runtime.gtk4/25.2.1
-buildext:
-  apt:
-    build_depends:
-      - nodejs
-      - npm
-      - libnode108
-      - libnode-dev
-      - pkg-config
-      - libglib2.0-dev
-      - libsoup-3.0-dev
-      - libatk1.0-dev
-      - libgtk-3-dev
-      - libayatana-appindicator3-dev
-      # - cargo 
-      # - git
-      # - build-essential
-      # - cmake
-      # - libgtk-4-dev
-      # - libwebkit2gtk-4.1-dev
-      # - libayatana-appindicator3-dev
-      # - libsoup-3.0-dev
-      # - libavif-dev
-    depends:
-      - libayatana-appindicator3-1
-#       # - libwebkit2gtk-4.1-0
-#       - libgtk-3-0
+
 build: |
-  # 安装 rustup
-  export RUSTUP_DIST_SERVER="https://rsproxy.cn"
-  export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-  # export PATH="/root/.cargo/bin:$PATH"
-  # # 安装并启用 Rust 1.82
-  # rustup install 1.82.0
-  # rustup default 1.82.0
-
-  # 确保 PATH 优先用 rustup 的工具链
-  export PATH="/root/.cargo/bin:$PATH"
-
-  # 回项目目录编译
-  cd /project/linglong/sources/linglong-store.git
-  npm install -g pnpm
-  pnpm install
-  cd src-tauri
-  cargo build --release
-  # pnpm build
-  # pnpm tauri build --bundles none
-  # 创建安装目录
-  cp -a /project/linglong-store_asset/usr/* ${PREFIX}
-  cp -a /project/linglong/sources/linglong-store.git/src-tauri/target/release/linglong-store ${PREFIX}/bin/linglong-store
+  install -Dm755 /project/linglong/sources/linglong-store ${PREFIX}/bin/linglong-store
+  install -Dm755 /project/linglong/sources/linyaps-dbus-server ${PREFIX}/bin/linyaps-dbus-server
+  install -Dm755 /project/linglong/sources/ll-cli ${PREFIX}/bin/ll-cli
+  cp -a ./linglong-store_asset/usr/* ${PREFIX}
 
 sources:
-  - kind: git
-    url: https://github.com/SXFreell/linglong-store.git
-    commit: feat/v2.0.0-bate.2              # 也可换成具体 tag/commit
-    name: linglong-store.git         # 下载后的目录名（便于脚本引用）
+  - kind: file
+    url: https://github.com/SXFreell/linglong-store/releases/download/2.0.0-beta.2/linglong-store-amd64
+    digest: 7b11fb6bbf4439af7300b3b1de147e6b317be6e5a9c6bb4d98e00304fa9092bc
+    name: linglong-store
+
+  - kind: file
+    url: https://github.com/guanzi008/org.linglong-store.LinyapsManager/releases/download/v0.0.1/linyaps-dbus-server-linux-amd64
+    digest: 39f666428c9b6b9d8370b1e48202c45e58e54d328ee37d82f8d50962bd655350
+    name: linyaps-dbus-server
+
+  - kind: file
+    url: https://github.com/guanzi008/org.linglong-store.LinyapsManager/releases/download/v0.0.1/linyapsctl-linux-amd64
+    digest: 7fa63c7dabf6f8391b7032c015ed87c0260f6ec483c06985da08a99d0ead2530
+    name: ll-cli
+
