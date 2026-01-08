@@ -3,7 +3,7 @@ version: "1"
 package:
   id: com.dongpl.linglong-store.v2
   name: linglong-store
-  version: 2.0.0.5
+  version: 2.0.0.6
   kind: app
   # channel: beta
   architecture: x86_64
@@ -19,22 +19,22 @@ runtime: org.deepin.runtime.gtk4/25.2.1
 build: |
   install -Dm755 /project/linglong/sources/linglong-store ${PREFIX}/bin/linglong-store
   install -Dm755 /project/linglong/sources/linyaps-dbus-server ${PREFIX}/bin/linyaps-dbus-server
-  install -Dm755 /project/linglong/sources/ll-cli ${PREFIX}/bin/ll-cli
-  cp -a ./linglong-store_asset/usr/* ${PREFIX}
+  install -Dm755 /project/linglong/sources/linyapsctl ${PREFIX}/bin/ll-cli
+  install -Dm755 /project/linglong/sources/linyapsctl ${PREFIX}/bin/pkexec
+  cp -a ./resources/usr/* ${PREFIX}
 
 sources:
   - kind: file
     url: https://github.com/SXFreell/linglong-store/releases/download/2.0.0-beta.2/linglong-store-amd64
-    digest: 7b11fb6bbf4439af7300b3b1de147e6b317be6e5a9c6bb4d98e00304fa9092bc
+    digest: 463645cc930f4f2a79fd629bc664e8356e30c77f00c72811bb10030e5b95ef08
     name: linglong-store
 
   - kind: file
-    url: https://github.com/guanzi008/org.linglong-store.LinyapsManager/releases/download/v0.0.2/linyaps-dbus-server-linux-amd64
-    digest: b46a6ae70df7d1fa3cd22f56e14e21a4b0c896ff6149faa1222edb15c6c9f8a1
+    url: https://github.com/guanzi008/org.linglong-store.LinyapsManager/releases/download/v0.0.5/linyaps-dbus-server-linux-amd64
+    digest: 3f3aa95fff684edcdaa2173c62634af355145814d3832a38df60e60237460f54
     name: linyaps-dbus-server
 
   - kind: file
-    url: https://github.com/guanzi008/org.linglong-store.LinyapsManager/releases/download/v0.0.2/linyapsctl-linux-amd64
-    digest: edcd901257ae9f61fba4e7951c61fef35139e6af1c4a3409f5e59154879a73b1
-    name: ll-cli
-
+    url: https://github.com/guanzi008/org.linglong-store.LinyapsManager/releases/download/v0.0.5/linyapsctl-linux-amd64
+    digest: 3272698dc0f4b3f3ddef3fc152259b7441f54090978ea6e103cb27135289415a
+    name: linyapsctl

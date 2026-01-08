@@ -1,6 +1,0 @@
-[D-BUS Service]
-Name=org.linglong_store.LinyapsManager
-
-SystemdService=org.linglong_store.LinyapsManager.service
-
-Exec=/bin/false
