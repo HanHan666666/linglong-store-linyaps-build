@@ -3,7 +3,7 @@ version: "1"
 package:
   id: com.dongpl.linglong-store.v2
   name: linglong-store
-  version: 2.0.0.6
+  version: 2.0.0.7
   kind: app
   # channel: beta
   architecture: x86_64
@@ -30,11 +30,11 @@ sources:
     name: linglong-store
 
   - kind: file
-    url: https://github.com/guanzi008/org.linglong-store.LinyapsManager/releases/download/v0.0.5/linyaps-dbus-server-linux-amd64
-    digest: 3f3aa95fff684edcdaa2173c62634af355145814d3832a38df60e60237460f54
+    url: https://github.com/guanzi008/org.linglong-store.LinyapsManager/releases/download/v0.0.8/linyaps-dbus-server-linux-amd64
+    digest: cd19236fabcd95bf9713e98cc266a579844db8ed144ae03897e6bdc809e9c80e
     name: linyaps-dbus-server
 
   - kind: file
-    url: https://github.com/guanzi008/org.linglong-store.LinyapsManager/releases/download/v0.0.5/linyapsctl-linux-amd64
-    digest: 3272698dc0f4b3f3ddef3fc152259b7441f54090978ea6e103cb27135289415a
+    url: https://github.com/guanzi008/org.linglong-store.LinyapsManager/releases/download/v0.0.8/linyapsctl-linux-amd64
+    digest: 1e554071518e7d9a7c7a0d63a22e523da93bdd6a4dd3aca41bb3d5c63d5bca42
     name: linyapsctl
