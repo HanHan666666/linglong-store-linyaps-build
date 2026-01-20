@@ -106,4 +106,4 @@ sleep 0.5
 
 export LINYAPS_CONTAINER=yes
 
-linglong-store
+linglong-store-start &
