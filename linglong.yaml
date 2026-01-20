@@ -8,7 +8,7 @@ package:
   # channel: beta
   architecture: x86_64
   description: |
-    Linglong application community store for discovering and managing Linglong apps.
+    用于发现和管理玲珑应用的玲珑商店社区版。
 
 command:
   - /opt/apps/com.dongpl.linglong-store.v2/files/bin/setup-linyaps-dbus.sh
