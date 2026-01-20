@@ -26,7 +26,7 @@ build: |
 sources:
   - kind: file
     url: https://github.com/SXFreell/linglong-store/releases/download/2.0.0-beta.2/linglong-store-arm64
-    digest: a81195a7b9d3c0ab15da3aafe93d03740bfa250b0eaad0e652f92d36a2e22b0b
+    digest: ccfcdf03589ce6d6521c672b7d6e17a5d5dc22ab2954a63c1a5030cc1dcc9f57
     name: linglong-store
 
   - kind: file

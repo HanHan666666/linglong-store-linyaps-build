@@ -69,26 +69,50 @@ def get_asset_info(release_data, file_pattern):
     return None
 
 def update_yaml_file(yaml_path, sources_config):
-    """更新 linglong.yaml 文件中的 sources 部分"""
+    """更新 linglong.yaml 文件中的 sources 部分，只更新指定的 name 条目"""
 
     with open(yaml_path, 'r', encoding='utf-8') as f:
         content = f.read()
 
-    # 构建新的 sources 部分
-    new_sources = "sources:\n"
-    for item in sources_config:
-        new_sources += f"  - kind: file\n"
-        new_sources += f"    url: {item['url']}\n"
-        new_sources += f"    digest: {item['digest']}\n"
-        new_sources += f"    name: {item['name']}\n"
-        new_sources += "\n"
+    # 将更新配置转换为字典，方便查找
+    update_dict = {item['name']: item for item in sources_config}
 
-    # 使用正则表达式替换 sources 部分
-    # 匹配从 sources: 开始到文件结尾或下一个顶级配置
-    pattern = r'sources:.*(?=\n[a-z]|\Z)'
-    replacement = new_sources.rstrip() + "\n"
+    # 按行分割内容
+    lines = content.split('\n')
 
-    new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
+    # 遍历每一行，找到需要更新的条目
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+
+        # 检查是否是 name 行
+        if line.strip().startswith('name:'):
+            name_value = line.split(':', 1)[1].strip()
+
+            # 如果这个 name 需要更新
+            if name_value in update_dict:
+                update_item = update_dict[name_value]
+
+                # 找到这个 source 块的开始（往回找最近的 '- kind:'）
+                j = i
+                while j >= 0 and not lines[j].strip().startswith('- kind:'):
+                    j -= 1
+
+                if j >= 0:
+                    # 更新这个 source 块的 url 和 digest
+                    k = j + 1
+                    while k < len(lines) and not lines[k].strip().startswith('- kind:'):
+                        if lines[k].strip().startswith('url:'):
+                            lines[k] = f'    url: {update_item["url"]}'
+                        elif lines[k].strip().startswith('digest:'):
+                            lines[k] = f'    digest: {update_item["digest"]}'
+
+                        k += 1
+
+        i += 1
+
+    # 重新组合内容
+    new_content = '\n'.join(lines)
 
     # 写入新内容
     with open(yaml_path, 'w', encoding='utf-8') as f:
