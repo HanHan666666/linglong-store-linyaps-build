@@ -3,7 +3,7 @@ version: "1"
 package:
   id: com.dongpl.linglong-store.v2
   name: linglong-store
-  version: 2.0.0.7
+  version: 2.0.1.0
   kind: app
   # channel: beta
   architecture: x86_64
@@ -47,8 +47,8 @@ build: |
 
 sources:
   - kind: file
-    url: https://github.com/SXFreell/linglong-store/releases/download/2.0.0-beta.2/linglong-store-amd64
-    digest: 33d618c077dd9deccb45048cf6cbfc9058c5bfb726374b80f32869e959194bcb
+    url: https://github.com/SXFreell/linglong-store/releases/download/2.0.1/linglong-store-amd64
+    digest: a435ae8c97355c77881ec4987133730a681a5a7bd85141aef601064a3e8a1ad3
     name: linglong-store
 
   - kind: file
