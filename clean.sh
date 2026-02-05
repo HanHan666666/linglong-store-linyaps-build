@@ -23,6 +23,7 @@ systemctl --user daemon-reload
 # 删除编译产物
 rm *.uab || true
 rm -rf linglong || true
+rm -rf arm64/linglong || true
 rm *.layer || true
 
 ll-cli kill -s 9 "${BUS_NAME}" 2>/dev/null 
