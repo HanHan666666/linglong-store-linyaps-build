@@ -3,12 +3,12 @@ version: "1"
 package:
   id: com.dongpl.linglong-store.v2
   name: linglong-store
-  version: 2.0.1.1
+  version: 2.0.1.0
   kind: app
   # channel: beta
   architecture: arm64
   description: |
-    用于发现和管理玲珑应用的玲珑商店社区版。
+    Linglong application community store for discovering and managing Linglong apps.
 
 command:
   - /opt/apps/com.dongpl.linglong-store.v2/files/bin/setup-linyaps-dbus.sh
@@ -19,9 +19,9 @@ runtime: org.deepin.runtime.gtk4/25.2.1
 build: |
   install -Dm755 /project/linglong/sources/linglong-store ${PREFIX}/bin/linglong-store
   install -Dm755 /project/linglong/sources/linyaps-dbus-server ${PREFIX}/bin/linyaps-dbus-server
-  install -Dm755 /project/linglong/sources/linyapsctl ${PREFIX}/bin/ll-cli
+  install -Dm755 /project/linglong/sources/ll-cli ${PREFIX}/bin/ll-cli
   install -Dm755 /project/linglong/sources/linyapsctl ${PREFIX}/bin/pkexec
-  cp -a ./resources/usr/* ${PREFIX}
+  cp -a ../resources/usr/* ${PREFIX}
 
 sources:
   - kind: file
