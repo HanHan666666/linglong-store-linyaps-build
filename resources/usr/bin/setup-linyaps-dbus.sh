@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 export DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/user/1000/bus
+PACKAGE_NAME="com.dongpl.linglong-store.v2"
 BUS_NAME="org.linglong_store.LinyapsManager"
-BIN_DIR="$HOME/.linglong-store-v2"
+OLD_BIN_DIR="$HOME/.linglong-store-v2"
+BIN_DIR="$HOME/.local/share/$PACKAGE_NAME/data"
 BIN="$BIN_DIR/linyaps-dbus-server"
 SERV_DIR="$HOME/.config/systemd/user"
 VERSION_FILE="$BIN_DIR/.version"
@@ -10,7 +12,12 @@ VERSION_FILE="$BIN_DIR/.version"
 # 改了脚本一定要改版本号
 APP_VERSION="2.2.0.0"
 
-# APP_FILE_DIR="/opt/apps/com.dongpl.linglong-store.v2/files"
+# APP_FILE_DIR="/opt/apps/$PACKAGE_NAME/files"
+
+# 如果OLD_BIN_DIR存在，就删除
+if [ -d "$OLD_BIN_DIR" ]; then
+  rm -rf "$OLD_BIN_DIR"
+fi
 
 mkdir -p "$BIN_DIR"
 
@@ -31,7 +38,7 @@ fi
 
 if [ "$NEED_RESTART" = true ]; then
   rm -rf "$BIN_DIR/linyaps-dbus-server"
-  cp /opt/apps/com.dongpl.linglong-store.v2/files/bin/linyaps-dbus-server "$BIN_DIR"
+  cp /opt/apps/$PACKAGE_NAME/files/bin/linyaps-dbus-server "$BIN_DIR"
   echo "$APP_VERSION" > "$VERSION_FILE"
   echo "已更新可执行文件到版本: $APP_VERSION"
 fi
