@@ -8,7 +8,7 @@ SERV_DIR="$HOME/.config/systemd/user"
 VERSION_FILE="$BIN_DIR/.version"
 
 # 改了脚本一定要改版本号
-APP_VERSION="2.0.0.7"
+APP_VERSION="2.2.0.0"
 
 # APP_FILE_DIR="/opt/apps/com.dongpl.linglong-store.v2/files"
 
@@ -106,4 +106,4 @@ sleep 0.5
 
 export LINYAPS_CONTAINER=yes
 
-linglong-store-start &
+linglong-store
