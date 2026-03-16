@@ -60,7 +60,6 @@ After=dbus.socket
 [Service]
 Type=dbus
 BusName=${BUS_NAME}
-Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=%t/bus
 ExecStart=${BIN}
 # Restart=on-failure
 
