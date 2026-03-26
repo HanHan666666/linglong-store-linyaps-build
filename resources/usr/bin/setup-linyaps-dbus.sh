@@ -4,7 +4,7 @@ export DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/user/1000/bus
 PACKAGE_NAME="com.dongpl.linglong-store.v2"
 BUS_NAME="org.linglong_store.LinyapsManager"
 OLD_BIN_DIR="$HOME/.linglong-store-v2"
-BIN_DIR="$HOME/.local/share/$PACKAGE_NAME/data"
+BIN_DIR="$HOME/.local/share/$PACKAGE_NAME/"
 BIN="$BIN_DIR/linyaps-dbus-server"
 SERV_DIR="$HOME/.config/systemd/user"
 VERSION_FILE="$BIN_DIR/.version"
@@ -39,6 +39,7 @@ fi
 if [ "$NEED_RESTART" = true ]; then
   rm -rf "$BIN_DIR/linyaps-dbus-server"
   cp /opt/apps/$PACKAGE_NAME/files/bin/linyaps-dbus-server "$BIN_DIR"
+  cp linglong-store "$BIN_DIR"
   echo "$APP_VERSION" > "$VERSION_FILE"
   echo "已更新可执行文件到版本: $APP_VERSION"
 fi
@@ -112,4 +113,4 @@ sleep 0.5
 
 export LINYAPS_CONTAINER=yes
 
-linglong-store
+"${BIN_DIR}"linglong-store
