@@ -3,7 +3,7 @@ version: "1"
 package:
   id: com.dongpl.linglong-store.v2
   name: linglong-store
-  version: 2.2.0.0
+  version: 2.2.0.1
   kind: app
   # channel: beta
   architecture: x86_64
@@ -13,8 +13,8 @@ package:
 command:
   - /opt/apps/com.dongpl.linglong-store.v2/files/bin/setup-linyaps-dbus.sh
 
-base: org.deepin.base/25.2.1
-runtime: org.deepin.runtime.gtk4/25.2.1
+base: org.deepin.base/25.2.2
+runtime: org.deepin.runtime.gtk4/25.2.2
 
 build: |
   install -Dm755 /project/linglong/sources/linglong-store ${PREFIX}/bin/linglong-store
@@ -26,7 +26,7 @@ build: |
 sources:
   - kind: file
     url: https://github.com/SXFreell/linglong-store/releases/download/2.2.0/linglong-store-amd64
-    digest: 02887cde85be474508758d7ec52985d67d7bb2785ddc443ca27111231b3cd86b
+    digest: f9c687295133b0f47ccfdcbb85f946aa473fecd2627c213d24e392a8c9be8d21
     name: linglong-store
 
   - kind: file

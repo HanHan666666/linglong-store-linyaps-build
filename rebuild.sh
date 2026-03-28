@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# 失败后终止继续执行
+set -euo pipefail
+
 ./clean.sh
 
 
