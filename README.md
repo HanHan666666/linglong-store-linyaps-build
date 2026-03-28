@@ -39,8 +39,8 @@
 
 ## 构建依赖
 
-- [ll-builder](https://github.com/nicesteven/nicesteven.github.io)（玲珑构建工具）
-- deepin 25 系统环境
+- [ll-builder](https://github.com/OpenAtom-Linyaps/linyaps)（Linyaps）
+- Linux 系统环境
 
 ## 使用方法
 
