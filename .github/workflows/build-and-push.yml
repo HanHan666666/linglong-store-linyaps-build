@@ -19,9 +19,12 @@ jobs:
       - name: Install ll-builder
         shell: bash
         run: |
-          echo "deb [trusted=yes] https://ci.deepin.com/repo/obs/linglong:/CI:/latest/xUbuntu_24.04/ ./" | sudo tee /etc/apt/sources.list.d/linglong.list
+          sudo apt install -y apt-transport-https ca-certificates curl gpg
+          sudo mkdir -p /etc/apt/keyrings/
+          curl -fsSL https://download.opensuse.org/repositories/home:/kamiyadm/xUbuntu_24.04/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/linglong-apt-keyring.gpg
+          echo "deb [signed-by=/etc/apt/keyrings/linglong-apt-keyring.gpg] https://download.opensuse.org/repositories/home:/kamiyadm/xUbuntu_24.04/ ./" | sudo tee /etc/apt/sources.list.d/linglong.list
           sudo apt update
-          sudo apt-get install -y --no-install-recommends linglong-builder linglong-box
+          sudo apt install -y linglong-builder linglong-box
 
       - name: Cache linglong-builder
         uses: actions/cache@v4
