@@ -1,0 +1,57 @@
+name: Build and Push Linyaps Package
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-24.04
+
+    env:
+      LINGLONG_USERNAME: ${{ secrets.LINGLONG_USERNAME }}
+      LINGLONG_PASSWORD: ${{ secrets.LINGLONG_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ll-builder
+        shell: bash
+        run: |
+          echo "deb [trusted=yes] https://ci.deepin.com/repo/obs/linglong:/CI:/latest/xUbuntu_24.04/ ./" | sudo tee /etc/apt/sources.list.d/linglong.list
+          sudo apt update
+          sudo apt-get install -y --no-install-recommends linglong-builder linglong-box
+
+      - name: Cache linglong-builder
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/linglong-builder
+          key: ${{ runner.os }}-linglong-builder-repo-objects
+
+      - name: Build amd64
+        shell: bash
+        run: |
+          ll-builder repo disable-mirror stable
+          ll-builder build --skip-output-check
+
+      - name: Build arm64
+        shell: bash
+        run: |
+          ll-builder build -f arm64/linglong.yaml --skip-output-check
+
+      - name: Push amd64
+        shell: bash
+        run: |
+          ll-builder push --repo-url https://cdn-linglong.odata.cc --repo-name stable --module binary
+
+      - name: Push arm64
+        shell: bash
+        run: |
+          ll-builder push --repo-url https://cdn-linglong.odata.cc --repo-name stable --module binary -f arm64/linglong.yaml
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: layers
+          path: ./*.layer
