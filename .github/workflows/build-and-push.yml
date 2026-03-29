@@ -36,7 +36,8 @@ jobs:
         run: |
           ll-builder --version
           ll-builder repo disable-mirror stable
-          ll-builder build --skip-output-check
+          export LINYAPS_LOG_LEVEL=debug
+          ll-builder build --skip-output-check 2>&1 | tee build-amd64.log
 
       - name: Build arm64
         shell: bash
@@ -54,6 +55,13 @@ jobs:
           ll-builder push --repo-url https://cdn-linglong.odata.cc --repo-name stable --module binary -f arm64/linglong.yaml
 
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: layers
           path: ./*.layer
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: build-logs
+          path: build-*.log
