@@ -35,7 +35,8 @@ jobs:
         shell: bash
         run: |
           ll-builder --version
-          ll-builder repo disable-mirror stable
+          ll-builder repo add --alias=testing stable https://cdn-linglong.odata.cc
+          ll-builder repo set-default testing
           export LINYAPS_LOG_LEVEL=debug
           ll-builder build --skip-output-check 2>&1 | tee build-amd64.log
 
