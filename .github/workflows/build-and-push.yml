@@ -8,7 +8,9 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-24.04
-    container: archlinux:latest
+    container:
+      image: archlinux:latest
+      options: --privileged
 
     env:
       LINGLONG_USERNAME: ${{ secrets.LINGLONG_USERNAME }}
