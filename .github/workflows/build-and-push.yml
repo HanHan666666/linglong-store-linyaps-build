@@ -36,13 +36,13 @@ jobs:
       - name: Build amd64
         shell: bash
         run: |
-          ll-builder repo disable-mirror stable
-          ll-builder build --skip-output-check
+          ll-builder --version
+          ll-builder build
 
       - name: Build arm64
         shell: bash
         run: |
-          ll-builder build -f arm64/linglong.yaml --skip-output-check
+          ll-builder build -f arm64/linglong.yaml
 
       - name: Push amd64
         shell: bash
