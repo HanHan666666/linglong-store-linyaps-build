@@ -10,7 +10,7 @@ SERV_DIR="$HOME/.config/systemd/user"
 VERSION_FILE="$BIN_DIR/.version"
 
 # 改了脚本一定要改版本号
-APP_VERSION="2.2.0.0"
+APP_VERSION="2.2.0.4"
 
 # APP_FILE_DIR="/opt/apps/$PACKAGE_NAME/files"
 
@@ -39,7 +39,7 @@ fi
 if [ "$NEED_RESTART" = true ]; then
   rm -rf "$BIN_DIR/linyaps-dbus-server"
   cp /opt/apps/$PACKAGE_NAME/files/bin/linyaps-dbus-server "$BIN_DIR"
-  cp linglong-store "$BIN_DIR"
+  cp /opt/apps/$PACKAGE_NAME/files/bin/linglong-store "$BIN_DIR"
   echo "$APP_VERSION" > "$VERSION_FILE"
   echo "已更新可执行文件到版本: $APP_VERSION"
 fi

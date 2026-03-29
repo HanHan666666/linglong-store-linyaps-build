@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
+PACKAGE_NAME="com.dongpl.linglong-store.v2"
 BUS_NAME="org.linglong_store.LinyapsManager"
 SERV_DIR="$HOME/.config/systemd/user"
 # DBUS_DIR="$HOME/.local/share/dbus-1/services"
-BIN_DIR="$HOME/.linglong-store-v2"
-
+OLD_BIN_DIR="$HOME/.linglong-store-v2"
+BIN_DIR="$HOME/.local/share/$PACKAGE_NAME/"
 # 停止服务（如果还在跑）
 systemctl --user stop "${BUS_NAME}.service" 2>/dev/null || true
 
 # 删除 unit 和 drop-in
+rm -f "$OLD_BIN_DIR"
 rm -f "${SERV_DIR}/${BUS_NAME}.service"
 rm -rf "${SERV_DIR}/${BUS_NAME}.service.d"
 rm -rf "${BIN_DIR}"
