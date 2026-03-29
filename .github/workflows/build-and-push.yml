@@ -22,7 +22,7 @@ jobs:
       - name: Install ll-builder
         shell: bash
         run: |
-          pacman -Syu --noconfirm linyaps wget
+          pacman -Syu --noconfirm linyaps wget fuse-overlayfs fuse2fs
 
       - name: Cache linglong-builder
         uses: actions/cache@v4
