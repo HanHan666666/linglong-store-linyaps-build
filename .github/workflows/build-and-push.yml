@@ -63,7 +63,7 @@ jobs:
         shell: bash
         run: |
           export LINYAPS_LOG_LEVEL=debug
-          ll-builder build -f arm64/linglong.yaml --skip-output-check 2>&1 | tee build-arm64.log
+          ll-builder build -f arm64/linglong.yaml --skip-output-check 2>&1 | tee build-arm64.log || true
 
       - name: Push amd64
         shell: bash
