@@ -44,7 +44,7 @@ jobs:
         with:
           path: |
             ~/.cache/linglong-builder
-          key: ${{ runner.os }}-linglong-builder-repo-objects
+          key: ${{ runner.os }}-linglong-builder-repo-objects-v2
 
       - name: Build amd64
         shell: bash
@@ -58,7 +58,8 @@ jobs:
       - name: Build arm64
         shell: bash
         run: |
-          ll-builder build -f arm64/linglong.yaml --skip-output-check
+          export LINYAPS_LOG_LEVEL=debug
+          ll-builder build -f arm64/linglong.yaml --skip-output-check 2>&1 | tee build-arm64.log
 
       - name: Push amd64
         shell: bash
