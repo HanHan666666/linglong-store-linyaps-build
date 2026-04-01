@@ -22,12 +22,16 @@ jobs:
       LINGLONG_PASSWORD: ${{ secrets.LINGLONG_PASSWORD }}
 
     steps:
+      - name: Install git for checkout
+        shell: bash
+        run: pacman -Sy --noconfirm git
+
       - uses: actions/checkout@v4
 
       - name: Install ll-builder
         shell: bash
         run: |
-          pacman -Syu --noconfirm linyaps wget fuse-overlayfs fuse2fs python git
+          pacman -Syu --noconfirm linyaps wget fuse-overlayfs fuse2fs python
 
       - name: Update sources from GitHub Release
         if: github.event_name == 'workflow_dispatch'
