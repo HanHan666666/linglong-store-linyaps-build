@@ -27,7 +27,7 @@ jobs:
       - name: Install ll-builder
         shell: bash
         run: |
-          pacman -Syu --noconfirm linyaps wget fuse-overlayfs fuse2fs
+          pacman -Syu --noconfirm linyaps wget fuse-overlayfs fuse2fs python
 
       - name: Update sources from GitHub Release
         if: github.event_name == 'workflow_dispatch'
