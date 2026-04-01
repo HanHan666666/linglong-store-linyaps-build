@@ -78,11 +78,16 @@ jobs:
       - name: Commit and push version update
         if: github.event_name == 'workflow_dispatch'
         shell: bash
+        working-directory: ${{ github.workspace }}
         run: |
+          pwd
+          ls -la .git || true
+          git config --global --add safe.directory ${{ github.workspace }}
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           git add linglong.yaml arm64/linglong.yaml resources/usr/bin/setup-linyaps-dbus.sh
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
           git commit -m "fix: update package version to ${{ inputs.version }}"
           git push
 
