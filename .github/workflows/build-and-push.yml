@@ -63,12 +63,12 @@ jobs:
       - name: Push amd64
         shell: bash
         run: |
-          ll-builder push --repo-url https://cdn-linglong.odata.cc --repo-name stable --module binary
+          ll-builder push --repo-url https://cdn-linglong.odata.cc --repo-name stable --module binary || true
 
       - name: Push arm64
         shell: bash
         run: |
-          ll-builder push --repo-url https://cdn-linglong.odata.cc --repo-name stable --module binary -f arm64/linglong.yaml
+          ll-builder push --repo-url https://cdn-linglong.odata.cc --repo-name stable --module binary -f arm64/linglong.yaml || true
       
       - name: Commit and push version update
         if: github.event_name == 'workflow_dispatch'
