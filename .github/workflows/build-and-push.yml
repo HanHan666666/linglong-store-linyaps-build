@@ -1,4 +1,4 @@
-name: Build and Push Linyaps Package
+name: Build and Push Linyaps Package${{ github.event_name == 'workflow_dispatch' && format(' - {0}', inputs.version) || '' }}
 
 on:
   workflow_dispatch:
