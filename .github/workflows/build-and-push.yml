@@ -48,7 +48,7 @@ jobs:
         with:
           path: |
             ~/.cache/linglong-builder
-          key: ${{ runner.os }}-linglong-builder-repo-objects-v2
+          key: ${{ runner.os }}-linglong-builder-repo-objects
 
       - name: Build amd64
         shell: bash
