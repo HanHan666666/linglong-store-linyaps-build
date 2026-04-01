@@ -22,20 +22,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Update sources from GitHub Release
-        if: github.event_name == 'workflow_dispatch'
-        shell: bash
-        run: python3 ./update-from-github-release.py
-
-      - name: Update version
-        if: github.event_name == 'workflow_dispatch'
-        shell: bash
-        run: python3 ./update-version.py ${{ inputs.version }}
-
       - name: Install ll-builder
         shell: bash
         run: |
           pacman -Syu --noconfirm linyaps wget fuse-overlayfs fuse2fs
+
+      - name: Update sources from GitHub Release
+        if: github.event_name == 'workflow_dispatch'
+        shell: bash
+        run: python ./update-from-github-release.py
+
+      - name: Update version
+        if: github.event_name == 'workflow_dispatch'
+        shell: bash
+        run: python ./update-version.py ${{ inputs.version }}
 
       - name: Cache linglong-builder
         uses: actions/cache@v4
