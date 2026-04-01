@@ -4,6 +4,11 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
+    inputs:
+      version:
+        description: "新版本号 (如 2.2.1.0)"
+        required: true
+        type: string
 
 jobs:
   build-and-push:
@@ -18,6 +23,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Update sources from GitHub Release
+        if: github.event_name == 'workflow_dispatch'
+        shell: bash
+        run: python3 ./update-from-github-release.py
+
+      - name: Update version
+        if: github.event_name == 'workflow_dispatch'
+        shell: bash
+        run: python3 ./update-version.py ${{ inputs.version }}
 
       - name: Install ll-builder
         shell: bash
@@ -54,6 +69,16 @@ jobs:
         shell: bash
         run: |
           ll-builder push --repo-url https://cdn-linglong.odata.cc --repo-name stable --module binary -f arm64/linglong.yaml
+      
+      - name: Commit and push version update
+        if: github.event_name == 'workflow_dispatch'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add linglong.yaml arm64/linglong.yaml resources/usr/bin/setup-linyaps-dbus.sh
+          git commit -m "fix: update package version to ${{ inputs.version }}"
+          git push
 
       - uses: actions/upload-artifact@v4
         if: always()
