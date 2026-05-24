@@ -12,3 +12,4 @@ ll-builder export  --layer
 
 ll-builder build -f arm64/linglong.yaml  --skip-output-check
 ll-builder export -f arm64/linglong.yaml --layer 
+ll-builder export -f arm64/linglong.yaml
