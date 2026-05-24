@@ -6,11 +6,12 @@ BUS_NAME="org.linglong_store.LinyapsManager"
 OLD_BIN_DIR="$HOME/.linglong-store-v2"
 BIN_DIR="$HOME/.local/share/$PACKAGE_NAME/"
 BIN="$BIN_DIR/linyaps-dbus-server"
+APP_BIN="/opt/apps/$PACKAGE_NAME/files/usr/bin/linglong-store"
 SERV_DIR="$HOME/.config/systemd/user"
 VERSION_FILE="$BIN_DIR/.version"
 
 # 改了脚本一定要改版本号
-APP_VERSION="2.2.1.8"
+APP_VERSION="3.3.6.1"
 
 # APP_FILE_DIR="/opt/apps/$PACKAGE_NAME/files"
 
@@ -37,15 +38,20 @@ else
 fi
 
 if [ "$NEED_RESTART" = true ]; then
-  rm -rf "$BIN_DIR/linyaps-dbus-server"
+  rm -f "$BIN_DIR/linyaps-dbus-server"
+  rm -f "$BIN_DIR/linglong-store"
   cp /opt/apps/$PACKAGE_NAME/files/bin/linyaps-dbus-server "$BIN_DIR"
-  cp /opt/apps/$PACKAGE_NAME/files/bin/linglong-store "$BIN_DIR"
   echo "$APP_VERSION" > "$VERSION_FILE"
   echo "已更新可执行文件到版本: $APP_VERSION"
 fi
 
 if [ ! -x "$BIN" ]; then
   echo "找不到可执行文件: $BIN"
+  exit 1
+fi
+
+if [ ! -x "$APP_BIN" ]; then
+  echo "找不到应用可执行文件: $APP_BIN"
   exit 1
 fi
 
@@ -113,4 +119,4 @@ sleep 0.5
 
 export LINYAPS_CONTAINER=yes
 
-"${BIN_DIR}"linglong-store
+"$APP_BIN"

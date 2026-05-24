@@ -8,9 +8,11 @@
 
 | 组件 | 上游仓库 | 说明 |
 |------|---------|------|
-| linglong-store | [SXFreell/linglong-store](https://github.com/SXFreell/linglong-store) | 玲珑商店前端（GTK4/WebKit） |
+| linglong-store | [HanHan666666/flutter-linglong-store](https://github.com/HanHan666666/flutter-linglong-store) | 玲珑商店 Flutter 前端（Release 中提供 AppImage） |
 | linyaps-dbus-server | [guanzi008/org.linglong-store.LinyapsManager](https://github.com/guanzi008/org.linglong-store.LinyapsManager) | DBus 服务端，提供应用管理接口 |
 | linyapsctl | 同上 | 玲珑包管理 CLI 工具，安装为 `ll-cli` |
+
+其中 `linglong-store` 组件当前跟踪 Flutter 版本 Release，并从对应架构的 AppImage 产物中更新下载地址与摘要；玲珑包内保留的目标文件名仍然是 `linglong-store`。
 
 ## 支持架构
 
@@ -74,7 +76,7 @@
 ./update-from-github-release.py aarch64
 ```
 
-脚本会自动查询 GitHub Release API，获取最新版本的下载地址和摘要，更新对应的 `linglong.yaml`。
+脚本会自动查询 GitHub Release API，获取最新版本的 Flutter AppImage 与管理器二进制下载地址和摘要，更新对应的 `linglong.yaml`。
 
 ## 运行时架构
 
@@ -87,7 +89,7 @@
 
 ## 版本
 
-当前版本：**2.2.0.1**
+当前版本：**3.3.6.1**
 
 基础环境：
 - Base: `org.deepin.base/25.2.2`

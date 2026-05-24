@@ -3,7 +3,7 @@ version: "1"
 package:
   id: com.dongpl.linglong-store.v2
   name: linglong-store
-  version: 2.2.1.8
+  version: 3.3.6.1
   kind: app
   # channel: beta
   architecture: arm64
@@ -14,19 +14,41 @@ command:
   - /opt/apps/com.dongpl.linglong-store.v2/files/bin/setup-linyaps-dbus.sh
 
 base: org.deepin.base/25.2.2
-runtime: org.deepin.runtime.gtk4/25.2.2
+# runtime: org.deepin.runtime.gtk4/25.2.2
 
 build: |
-  install -Dm755 /project/linglong/sources/linglong-store ${PREFIX}/bin/linglong-store
+  DEB_ROOT=/tmp/linglong-store-deb
+
+  rm -rf "$DEB_ROOT"
+  mkdir -p "$DEB_ROOT"
+  cp /project/linglong/sources/linglong-store "$DEB_ROOT/linglong-store.deb"
+
+  cd "$DEB_ROOT"
+  ar x linglong-store.deb
+  tar -xf data.tar.xz
+
+  mkdir -p "${PREFIX}/opt"
+  cp -a "$DEB_ROOT/opt/linglong-store" "${PREFIX}/opt/"
+
+  mkdir -p "${PREFIX}/usr/bin"
+  cat > "${PREFIX}/usr/bin/linglong-store" <<'EOF'
+  #!/usr/bin/env bash
+  set -euo pipefail
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  APPDIR_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+  exec "$APPDIR_ROOT/opt/linglong-store/linglong_store" "$@"
+  EOF
+  chmod 755 "${PREFIX}/usr/bin/linglong-store"
+
   install -Dm755 /project/linglong/sources/linyaps-dbus-server ${PREFIX}/bin/linyaps-dbus-server
   install -Dm755 /project/linglong/sources/linyapsctl ${PREFIX}/bin/ll-cli
   install -Dm755 /project/linglong/sources/linyapsctl ${PREFIX}/bin/pkexec
-  cp -a ./resources/usr/* ${PREFIX}
+  cp -a /project/resources/usr/* ${PREFIX}
 
 sources:
   - kind: file
-    url: https://github.com/SXFreell/linglong-store/releases/download/2.2.1/linglong-store-arm64
-    digest: 16d0263c70704bdee4bce2536130f0d7fd5cd48099a24c0ccdc8e8ae1b87303c
+    url: https://github.com/HanHan666666/flutter-linglong-store/releases/download/v3.3.6/linglong-store_3.3.6_arm64.deb
+    digest: 0e363c788bd324c30b1bb60befe67b8e360c27d6a33445c155f960b02448b862
     name: linglong-store
 
   - kind: file

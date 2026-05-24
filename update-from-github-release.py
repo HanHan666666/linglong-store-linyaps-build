@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """自动从 GitHub Release 拉取最新版本并更新 linglong.yaml
 
+当前会为 linglong-store 选择上游 Release 中的 .deb 产物，
+而不是 AppImage。
+
 用法:
   ./update-from-github-release.py           # 更新所有架构
   ./update-from-github-release.py x86_64    # 只更新 x86_64
   ./update-from-github-release.py aarch64   # 只更新 aarch64 (arm64)
 """
 
-import os
 import sys
-import re
 from pathlib import Path
 from urllib.request import urlopen, Request
 from urllib.error import URLError
@@ -35,6 +36,44 @@ def print_red(msg):
 def print_blue(msg):
     print(f"{Colors.BLUE}{msg}{Colors.NC}")
 
+def normalize_digest(digest):
+    """规范化 GitHub API 返回的 digest 字段"""
+    if digest.startswith('sha256:'):
+        return digest[7:]
+    return digest
+
+def asset_name_matches(asset_name, file_pattern):
+    """检查资源名称是否匹配指定模式
+
+    file_pattern 支持以下两种形式：
+    - 字符串：只要资产名包含该子串即可
+    - 字典：支持 contains / suffix 组合匹配
+    """
+    if isinstance(file_pattern, str):
+        return file_pattern in asset_name
+
+    contains = file_pattern.get('contains', [])
+    suffix = file_pattern.get('suffix')
+
+    if suffix and not asset_name.endswith(suffix):
+        return False
+
+    return all(pattern in asset_name for pattern in contains)
+
+def format_file_pattern(file_pattern):
+    """将文件匹配模式格式化为可读字符串"""
+    if isinstance(file_pattern, str):
+        return file_pattern
+
+    contains = ' + '.join(file_pattern.get('contains', []))
+    suffix = file_pattern.get('suffix', '')
+
+    if contains and suffix:
+        return f"{contains} + endswith({suffix})"
+    if suffix:
+        return f"endswith({suffix})"
+    return contains
+
 def fetch_github_release(repo):
     """获取 GitHub 仓库的最新 Release 信息"""
     url = f"https://api.github.com/repos/{repo}/releases/latest"
@@ -55,16 +94,10 @@ def fetch_github_release(repo):
 def get_asset_info(release_data, file_pattern):
     """从 Release 数据中获取匹配的资源信息"""
     for asset in release_data.get('assets', []):
-        if file_pattern in asset['name']:
-            # GitHub API 返回的 digest 格式为 "sha256:..."
-            # 需要去掉 "sha256:" 前缀
-            digest = asset.get('digest', '')
-            if digest.startswith('sha256:'):
-                digest = digest[7:]  # 去掉 "sha256:" 前缀
-
+        if asset_name_matches(asset['name'], file_pattern):
             return {
                 'url': asset['browser_download_url'],
-                'digest': digest
+                'digest': normalize_digest(asset.get('digest', ''))
             }
     return None
 
@@ -120,7 +153,8 @@ def update_yaml_file(yaml_path, sources_config):
 
 def update_architecture(arch, arch_config, releases):
     """更新指定架构的配置文件"""
-    yaml_path = Path.cwd() / arch_config['dir'] / "linglong.yaml"
+    repo_root = Path(__file__).resolve().parent
+    yaml_path = repo_root / arch_config['dir'] / "linglong.yaml"
 
     if not yaml_path.exists():
         print_red(f"  未找到配置文件: {yaml_path}")
@@ -139,7 +173,7 @@ def update_architecture(arch, arch_config, releases):
         asset_info = get_asset_info(release_data, pattern)
 
         if not asset_info:
-            print_red(f"  未找到文件: {pattern}")
+            print_red(f"  未找到文件: {format_file_pattern(pattern)}")
             return False
 
         print(f"  {name}:")
@@ -166,7 +200,7 @@ def main():
 
     # 仓库配置
     repos = {
-        'store': 'SXFreell/linglong-store',
+        'store': 'HanHan666666/flutter-linglong-store',
         'manager': 'guanzi008/org.linglong-store.LinyapsManager'
     }
 
@@ -178,7 +212,10 @@ def main():
                 {
                     'name': 'linglong-store',
                     'repo': 'store',
-                    'pattern': 'linglong-store-amd64'
+                    'pattern': {
+                        'contains': ['linglong-store_'],
+                        'suffix': '_amd64.deb'
+                    }
                 },
                 {
                     'name': 'linyaps-dbus-server',
@@ -198,7 +235,10 @@ def main():
                 {
                     'name': 'linglong-store',
                     'repo': 'store',
-                    'pattern': 'linglong-store-arm64'
+                    'pattern': {
+                        'contains': ['linglong-store_'],
+                        'suffix': '_arm64.deb'
+                    }
                 },
                 {
                     'name': 'linyaps-dbus-server',
@@ -217,21 +257,20 @@ def main():
     # 确定要更新的架构
     if arch_args:
         # 验证指定的架构
-        valid_archs = set(architectures.keys())
-        requested_archs = set(arch_args)
+        valid_archs = tuple(architectures.keys())
+        normalized_archs = []
 
-        # 支持 arm64 别名
-        if 'arm64' in requested_archs:
-            requested_archs.remove('arm64')
-            requested_archs.add('aarch64')
+        for arch in arch_args:
+            normalized_archs.append('aarch64' if arch == 'arm64' else arch)
 
-        invalid = requested_archs - valid_archs
+        invalid = sorted({arch for arch in normalized_archs if arch not in architectures})
         if invalid:
             print_red(f"错误: 不支持的架构: {', '.join(invalid)}")
             print_yellow(f"支持的架构: {', '.join(valid_archs)}")
             sys.exit(1)
 
-        archs_to_update = list(requested_archs & valid_archs)
+        requested_archs = set(normalized_archs)
+        archs_to_update = [arch for arch in architectures.keys() if arch in requested_archs]
     else:
         # 更新所有架构
         archs_to_update = list(architectures.keys())
