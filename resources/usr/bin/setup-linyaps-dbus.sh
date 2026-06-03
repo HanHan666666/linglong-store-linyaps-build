@@ -10,7 +10,7 @@ SERV_DIR="$HOME/.config/systemd/user"
 VERSION_FILE="$BIN_DIR/.version"
 
 # 改了脚本一定要改版本号
-APP_VERSION="3.3.6.1"
+APP_VERSION="3.3.6.2"
 
 # APP_FILE_DIR="/opt/apps/$PACKAGE_NAME/files"
 
