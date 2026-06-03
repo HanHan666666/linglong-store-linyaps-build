@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
-export DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/user/1000/bus
 PACKAGE_NAME="com.dongpl.linglong-store.v2"
 BUS_NAME="org.linglong_store.LinyapsManager"
 OLD_BIN_DIR="$HOME/.linglong-store-v2"

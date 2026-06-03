@@ -52,11 +52,11 @@ sources:
     name: linglong-store
 
   - kind: file
-    url: https://github.com/guanzi008/org.linglong-store.LinyapsManager/releases/download/v0.0.8/linyaps-dbus-server-linux-arm64
-    digest: 88e6654ee4ba822c10655020c344c56114e3de43c638ecac60cb718beea40fe0
+    url: https://github.com/guanzi008/org.linglong-store.LinyapsManager/releases/download/v0.0.9/linyaps-dbus-server-linux-arm64
+    digest: 4bc3743dfb9fe3b174b208ec577d3dc1397a66defecb23a8c11a348b0a8d2424
     name: linyaps-dbus-server
 
   - kind: file
-    url: https://github.com/guanzi008/org.linglong-store.LinyapsManager/releases/download/v0.0.8/linyapsctl-linux-arm64
-    digest: 41e4f60356dbe359897900920ee14630c7ac126552cf067a100eac387027edff
+    url: https://github.com/guanzi008/org.linglong-store.LinyapsManager/releases/download/v0.0.9/linyapsctl-linux-arm64
+    digest: c3182c84e13fbda3dffc6a920d540b9aea500ec858c2a3e1fb2e0d3b856473fc
     name: linyapsctl
